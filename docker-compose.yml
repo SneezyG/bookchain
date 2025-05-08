@@ -1,0 +1,38 @@
+
+services:
+  mongo-user:
+    image: mongo:4.4
+    container_name: mongo-user
+    ports:
+      - "27017:27017"
+    networks:
+      - bookchain-net
+
+  mongo-book:
+    image: mongo:4.4
+    container_name: mongo-book
+    ports:
+      - "27018:27017"
+    networks:
+      - bookchain-net
+
+  mongo-loan:
+    image: mongo:4.4
+    container_name: mongo-loan
+    ports:
+      - "27019:27017"
+    networks:
+      - bookchain-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # Broker port for services
+      - "15672:15672"  # Web UI for management
+    networks:
+      - bookchain-net
+
+networks:
+  bookchain-net:
+    driver: bridge

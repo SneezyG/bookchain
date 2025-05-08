@@ -1,0 +1,26 @@
+{
+  "name": "loan-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --exec 'node -r pino-pretty' src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "dotenv": "^16.5.0",
+    "koa": "^3.0.0",
+    "koa-router": "^13.0.1",
+    "mongoose": "^8.14.1",
+    "pino": "^9.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "pino-pretty": "^13.0.0"
+  }
+}
