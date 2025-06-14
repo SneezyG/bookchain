@@ -2,9 +2,11 @@ const Router = require('@koa/router');
 const Loan = require('../models/Loan');
 const { publishLoanCreated, publishLoanReturned } = require('../events/publisher');
 
+
 const router = new Router();
 
-// create a new loan
+
+// create a new loan and publish it event
 router.post('/loans', async (ctx) => {
   const { userId, bookId, dueDate } = ctx.request.body;
 
@@ -17,7 +19,9 @@ router.post('/loans', async (ctx) => {
   ctx.body = loan;
 });
 
-// mark a loan completed
+
+
+// mark a loan completed and publish it event
 router.get('/loans/:id/return', async (ctx) => {
   const { id } = ctx.params;
 
@@ -36,5 +40,7 @@ router.get('/loans/:id/return', async (ctx) => {
 
   ctx.body = loan;
 });
+
+
 
 module.exports = router;

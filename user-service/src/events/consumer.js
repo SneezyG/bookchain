@@ -6,16 +6,20 @@ async function startConsumer(logger) {
   try {
     const connection = await amqp.connect(process.env.RABBITMQ_URL);
     const channel = await connection.createChannel();
-
+    
+    // create exchanges that queues will bind to
     await channel.assertExchange('LoanCreated', 'fanout', { durable: true });
     await channel.assertExchange('LoanReturned', 'fanout', { durable: true });
     
+    // create and bind loan created queue
     const { queue: loanCreatedQueue } = await channel.assertQueue('', { exclusive: true });
     await channel.bindQueue(loanCreatedQueue, 'LoanCreated', '');
-
+    
+    // create and bind loan returned queue
     const { queue: loanReturnedQueue } = await channel.assertQueue('', { exclusive: true });
     await channel.bindQueue(loanReturnedQueue, 'LoanReturned', '');
-
+    
+    // start a consumer for loan created queue
     channel.consume(loanCreatedQueue, async (msg) => {
       const data = JSON.parse(msg.content.toString());
       const { userId, bookId, loanId } = data;
@@ -32,7 +36,8 @@ async function startConsumer(logger) {
 
       channel.ack(msg);
     });
-
+    
+    // start a consumer for loan returned queue
     channel.consume(loanReturnedQueue, async (msg) => {
       const data = JSON.parse(msg.content.toString());
       const { userId, bookId } = data;

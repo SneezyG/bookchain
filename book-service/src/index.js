@@ -22,7 +22,6 @@ mongoose.connect(process.env.MONGO_URI, {
   app.get('/', async (request, reply) => {
     return { message: 'Book Service is up and running!' };
   });
-
   app.post('/books', addBook);
   app.get('/books/:id', getBook);
 
